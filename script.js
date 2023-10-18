@@ -29,11 +29,15 @@ function validator(inputArr) {
     inputArr.forEach(function(input) {
         //console.log(input.value);
         if(input.value.trim() === '') {
-            showError(input, 'is required');
+            showError(input, `${getName(input)} is required`);
         } else {
             showSuccess(input);
         }
     });
+}
+
+function getName(input) {
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
 }
 
 //Events
