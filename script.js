@@ -19,9 +19,19 @@ function showSuccess(input) {
 }
 
 //email function
-function validEmail(email) {
+function validEmail(input) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(String(email).toLowerCase());
+   if(emailRegex.test(email.value.trim())) {
+        showSuccess(input);
+   } else {
+        showError(input, 'Email is not valid.');
+   }
+}
+
+function passwordMatch(input1, input2) {
+    if(input1.value !== input2.value) {
+        showError(input2, 'Passwords do not match.');
+    }
 }
 
 //validate field
@@ -36,6 +46,17 @@ function validator(inputArr) {
     });
 }
 
+//Check lenght
+function checkLength(input, min, max) {
+    if(input.value.length < min) {
+        showError(input, `${getName(input)} must be at least ${min} characters.`);
+    } else if(input.value.length > max) {
+        showError(input, `${getName(input)} must be less than ${max} characters.`);
+    } else {
+        showSuccess(input);
+    }
+}
+
 function getName(input) {
     return input.id.charAt(0).toUpperCase() + input.id.slice(1);
 }
@@ -45,4 +66,8 @@ form.addEventListener('submit', function(e) {
     e.preventDefault();
 
    validator([username, email, password1, password2]);
+   checkLength(username, 3, 15);
+   checkLength(password1, 6, 25);
+   validEmail(email);
+   passwordMatch(password1, password2);
 });
